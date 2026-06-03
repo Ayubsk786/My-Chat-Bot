@@ -1,145 +1,180 @@
-<h2 class="sr-only">Executive AI Assistant with file attachments — upload reports and documents for better AI analysis</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExecAI – Leadership Assistant</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
-  :root {
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f5f5f4;
-  --color-background-tertiary: #ece9e4;
-  --color-text-primary: #1a1a18;
-  --color-text-secondary: #5f5e5a;
-  --color-text-tertiary: #888780;
-  --color-border-tertiary: rgba(0,0,0,0.12);
-  --color-border-secondary: rgba(0,0,0,0.18);
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'Menlo', 'Monaco', monospace;
+:root {
+  --bg1: #0f1117;
+  --bg2: #161b27;
+  --bg3: #1c2333;
+  --bg4: #232b3e;
+  --bg5: #2a3349;
+  --t1: #e8eaf0;
+  --t2: #9aa3b8;
+  --t3: #5c6480;
+  --blue: #f5a623;
+  --blue-dim: rgba(245,166,35,0.12);
+  --blue-border: rgba(245,166,35,0.3);
+  --accent: #f5a623;
+  --accent-text: #1a1200;
+  --green: #22c55e;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --r-md: 10px;
+  --r-lg: 14px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'Menlo','Monaco',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-.app{display:flex;height:640px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;background:var(--color-background-primary)}
-.sidebar{width:220px;background:var(--color-background-secondary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;flex-shrink:0}
-.brand{padding:14px 14px 12px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:9px}
-.brand-mark{width:30px;height:30px;border-radius:9px;background:#185FA5;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;flex-shrink:0}
-.brand-name{font-weight:500;font-size:14px}
-.brand-sub{font-size:10px;color:var(--color-text-tertiary)}
-.role-selector{padding:10px 10px 4px}
-.role-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-tertiary);font-weight:500;margin-bottom:5px}
-.role-btn{width:100%;display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:var(--border-radius-md);border:none;background:transparent;cursor:pointer;font-size:12.5px;color:var(--color-text-secondary);font-family:var(--font-sans);text-align:left;margin-bottom:1px;transition:background .15s}
-.role-btn:hover{background:var(--color-background-primary)}
-.role-btn.active{background:#E6F1FB;color:#0C447C;font-weight:500}
-.role-btn i{font-size:15px;width:16px;flex-shrink:0}
-.topics{padding:6px 10px;flex:1;overflow-y:auto}
-.topic-label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-tertiary);font-weight:500;padding:5px 0 3px}
-.topic-btn{width:100%;display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:var(--border-radius-md);border:none;background:transparent;cursor:pointer;font-size:12px;color:var(--color-text-secondary);font-family:var(--font-sans);text-align:left;margin-bottom:1px;transition:background .15s;line-height:1.4}
-.topic-btn:hover{background:var(--color-background-primary)}
-.topic-btn i{font-size:13px;width:15px;flex-shrink:0;opacity:.7}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.topbar{padding:0 14px;height:50px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:9px;flex-shrink:0}
-.status-dot{width:7px;height:7px;border-radius:50%;background:#1D9E75;flex-shrink:0}
-.topbar-info{flex:1}
-.topbar-title{font-weight:500;font-size:13.5px}
-.topbar-sub{font-size:10.5px;color:var(--color-text-tertiary)}
-.ai-badge{font-size:11px;background:#E6F1FB;color:#0C447C;border-radius:10px;padding:2px 8px;font-weight:500}
-.clr-btn{width:28px;height:28px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary)}
-.messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
-.msg{display:flex;gap:9px;animation:fi .2s ease}
-@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.msg.user{flex-direction:row-reverse}
-.avatar{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:500}
-.msg.user .avatar{background:#185FA5;color:#fff}
-.msg.ai .avatar{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
-.bubble{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.65;max-width:83%;word-break:break-word}
-.msg.user .bubble{background:#185FA5;color:#fff;border-bottom-right-radius:3px}
-.msg.ai .bubble{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-bottom-left-radius:3px}
-.typing{display:flex;gap:4px;padding:6px 2px;align-items:center}
-.dot{width:5px;height:5px;border-radius:50%;background:var(--color-text-tertiary);animation:bo .8s infinite}
-.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
-@keyframes bo{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.attach-preview{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px 0}
-.attach-chip{display:flex;align-items:center;gap:6px;padding:5px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:12px;color:var(--color-text-primary);max-width:200px}
-.attach-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.attach-chip-icon{font-size:14px;color:#185FA5;flex-shrink:0}
-.attach-remove{border:none;background:none;cursor:pointer;color:var(--color-text-tertiary);font-size:14px;padding:0;line-height:1;flex-shrink:0}
-.attach-remove:hover{color:var(--color-text-danger)}
-.input-area{border-top:0.5px solid var(--color-border-tertiary);padding:10px 14px;display:flex;flex-direction:column;gap:7px}
-.quick-row{display:flex;flex-wrap:wrap;gap:5px}
-.qp{padding:4px 10px;border-radius:14px;border:0.5px solid var(--color-border-secondary);background:transparent;font-size:11.5px;cursor:pointer;color:var(--color-text-secondary);font-family:var(--font-sans);transition:background .15s;white-space:nowrap}
-.qp:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
-.input-row{display:flex;gap:7px;align-items:flex-end}
-.attach-btn{width:34px;height:34px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);flex-shrink:0;transition:background .15s;position:relative}
-.attach-btn:hover{background:var(--color-background-secondary);color:#185FA5}
-.attach-btn.has-files{border-color:#185FA5;color:#185FA5;background:#E6F1FB}
-.textarea{flex:1;resize:none;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:8px 12px;font-size:13px;font-family:var(--font-sans);line-height:1.5;min-height:38px;max-height:100px;background:var(--color-background-primary);color:var(--color-text-primary);outline:none;transition:border-color .15s}
-.textarea:focus{border-color:#185FA5}
-.send{width:34px;height:34px;border-radius:var(--border-radius-md);background:#185FA5;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;transition:opacity .15s}
-.send:hover{opacity:.85}
-.send:disabled{opacity:.35;cursor:not-allowed}
-.file-hint{font-size:11px;color:var(--color-text-tertiary);text-align:center;padding:2px 0}
-.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:20px;text-align:center}
-.welcome-icon{width:44px;height:44px;border-radius:13px;background:#E6F1FB;display:flex;align-items:center;justify-content:center;color:#185FA5;font-size:20px}
-.welcome-title{font-size:15px;font-weight:500}
-.welcome-sub{font-size:12.5px;color:var(--color-text-secondary);line-height:1.6;max-width:290px}
-.starter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%;max-width:370px;margin-top:4px}
-.starter{padding:9px 11px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;text-align:left;font-family:var(--font-sans);transition:background .15s}
-.starter:hover{background:var(--color-background-tertiary)}
-.starter-icon{font-size:15px;color:#185FA5;margin-bottom:3px}
-.starter-text{font-size:11.5px;color:var(--color-text-primary);line-height:1.4}
-.file-msg-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.2);font-size:11px;margin-bottom:5px;max-width:100%}
-.file-msg-chip-ai{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
-</style>
+html,body{height:100%;background:#080b12;font-family:var(--font);color:var(--t1)}
+body{display:flex;align-items:stretch;justify-content:center;min-height:100vh}
+.app{display:flex;width:100%;max-width:1100px;min-height:100vh;background:var(--bg1)}
 
+/* SIDEBAR */
+.sidebar{width:260px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.brand{padding:18px 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent-text);font-size:16px;flex-shrink:0}
+.brand-name{font-weight:600;font-size:15px;color:var(--t1)}
+.brand-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.section-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);font-weight:600;padding:14px 16px 6px}
+.role-btn{width:100%;display:flex;align-items:center;gap:9px;padding:8px 16px;border:none;background:transparent;cursor:pointer;font-size:13px;color:var(--t2);font-family:var(--font);text-align:left;transition:all .15s;position:relative}
+.role-btn:hover{color:var(--t1);background:var(--bg3)}
+.role-btn.active{color:var(--accent);background:var(--blue-dim)}
+.role-btn.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--accent);border-radius:0 2px 2px 0}
+.role-btn i{font-size:16px;width:18px;flex-shrink:0;opacity:.8}
+.role-btn.active i{opacity:1}
+.topics{padding:0 0 12px;flex:1;overflow-y:auto}
+.topic-btn{width:100%;display:flex;align-items:center;gap:9px;padding:7px 16px;border:none;background:transparent;cursor:pointer;font-size:12.5px;color:var(--t3);font-family:var(--font);text-align:left;transition:all .15s;line-height:1.4}
+.topic-btn:hover{color:var(--t1);background:var(--bg3)}
+.topic-btn i{font-size:14px;width:15px;flex-shrink:0}
+.powered{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--t3);display:flex;align-items:center;gap:6px}
+.powered-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg1)}
+.topbar{padding:0 20px;height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;background:var(--bg2)}
+.topbar-info{flex:1}
+.topbar-title{font-weight:600;font-size:14px;color:var(--t1)}
+.topbar-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.ai-badge{font-size:11px;background:var(--bg4);color:var(--t2);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;font-weight:500}
+.clr-btn{width:32px;height:32px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t3);transition:all .15s}
+.clr-btn:hover{color:var(--t1);border-color:var(--border2);background:var(--bg3)}
+
+/* MESSAGES */
+.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
+.messages::-webkit-scrollbar{width:4px}
+.messages::-webkit-scrollbar-track{background:transparent}
+.messages::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px}
+.msg{display:flex;gap:10px;animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.user{flex-direction:row-reverse}
+.avatar{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.msg.user .avatar{background:var(--accent);color:var(--accent-text)}
+.msg.ai .avatar{background:var(--bg4);border:1px solid var(--border2);color:var(--accent)}
+.bubble{padding:11px 15px;border-radius:14px;font-size:13.5px;line-height:1.7;max-width:80%;word-break:break-word}
+.msg.user .bubble{background:var(--bg4);color:var(--t1);border:1px solid var(--border2);border-bottom-right-radius:4px}
+.msg.ai .bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:4px;color:var(--t1)}
+.typing{display:flex;gap:5px;padding:4px 2px;align-items:center}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--t3);animation:bo .9s infinite}
+.dot:nth-child(2){animation-delay:.18s}.dot:nth-child(3){animation-delay:.36s}
+@keyframes bo{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+/* WELCOME */
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:30px;text-align:center}
+.welcome-icon{width:56px;height:56px;border-radius:16px;background:var(--blue-dim);border:1px solid var(--blue-border);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:22px;margin-bottom:4px}
+.welcome-title{font-size:20px;font-weight:600;color:var(--t1)}
+.welcome-sub{font-size:13px;color:var(--t2);line-height:1.7;max-width:340px}
+.starter-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:480px;margin-top:8px}
+.starter{padding:14px;border-radius:var(--r-lg);border:1px solid var(--border);background:var(--bg3);cursor:pointer;text-align:left;font-family:var(--font);transition:all .15s}
+.starter:hover{background:var(--bg4);border-color:var(--border2)}
+.starter-icon{font-size:18px;color:var(--accent);margin-bottom:6px}
+.starter-text{font-size:12.5px;color:var(--t1);line-height:1.5;font-weight:500}
+
+/* ATTACH PREVIEW */
+.attach-preview{display:flex;flex-wrap:wrap;gap:7px;padding:10px 20px 0;background:var(--bg1)}
+.attach-chip{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:var(--r-md);border:1px solid var(--border2);background:var(--bg3);font-size:12px;color:var(--t1);max-width:220px}
+.attach-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.attach-chip-icon{font-size:14px;color:var(--accent);flex-shrink:0}
+.attach-remove{border:none;background:none;cursor:pointer;color:var(--t3);font-size:14px;padding:0;line-height:1;flex-shrink:0;transition:color .15s}
+.attach-remove:hover{color:#f87171}
+
+/* INPUT AREA */
+.input-area{border-top:1px solid var(--border);padding:14px 20px;display:flex;flex-direction:column;gap:9px;background:var(--bg2)}
+.quick-row{display:flex;flex-wrap:wrap;gap:6px}
+.qp{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:12px;cursor:pointer;color:var(--t2);font-family:var(--font);transition:all .15s;white-space:nowrap}
+.qp:hover{background:var(--bg4);color:var(--t1);border-color:var(--border2)}
+.input-row{display:flex;gap:8px;align-items:flex-end}
+.attach-btn{width:38px;height:38px;border-radius:var(--r-md);border:1px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t3);flex-shrink:0;transition:all .15s}
+.attach-btn:hover{background:var(--bg4);color:var(--t1)}
+.attach-btn.has-files{border-color:var(--blue-border);color:var(--accent);background:var(--blue-dim)}
+.textarea{flex:1;resize:none;border:1px solid var(--border2);border-radius:var(--r-lg);padding:9px 14px;font-size:13.5px;font-family:var(--font);line-height:1.5;min-height:40px;max-height:120px;background:var(--bg3);color:var(--t1);outline:none;transition:border-color .15s}
+.textarea::placeholder{color:var(--t3)}
+.textarea:focus{border-color:rgba(245,166,35,0.4)}
+.send{width:38px;height:38px;border-radius:var(--r-md);background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--accent-text);flex-shrink:0;transition:opacity .15s;font-size:15px}
+.send:hover{opacity:.85}
+.send:disabled{opacity:.3;cursor:not-allowed}
+.file-hint{font-size:11px;color:var(--t3);text-align:center;padding:1px 0}
+.file-msg-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.08);font-size:11px;margin-bottom:5px}
+</style>
+</head>
+<body>
 <div class="app">
   <div class="sidebar">
     <div class="brand">
-      <div class="brand-mark"><i class="ti ti-briefcase" aria-hidden="true"></i></div>
+      <div class="brand-mark"><i class="ti ti-briefcase"></i></div>
       <div><div class="brand-name">ExecAI</div><div class="brand-sub">Leadership Assistant</div></div>
     </div>
-    <div class="role-selector">
-      <div class="role-label">Your role</div>
-      <button class="role-btn active" onclick="setRole(this,'CEO','Chief Executive Officer')"><i class="ti ti-crown" aria-hidden="true"></i> CEO</button>
-      <button class="role-btn" onclick="setRole(this,'CFO','Chief Financial Officer')"><i class="ti ti-coin" aria-hidden="true"></i> CFO</button>
-      <button class="role-btn" onclick="setRole(this,'COO','Chief Operations Officer')"><i class="ti ti-settings" aria-hidden="true"></i> COO</button>
-      <button class="role-btn" onclick="setRole(this,'CTO','Chief Technology Officer')"><i class="ti ti-cpu" aria-hidden="true"></i> CTO</button>
-      <button class="role-btn" onclick="setRole(this,'Director','Senior Director')"><i class="ti ti-user-star" aria-hidden="true"></i> Director</button>
-      <button class="role-btn" onclick="setRole(this,'Board Member','Board Member')"><i class="ti ti-building" aria-hidden="true"></i> Board Member</button>
-    </div>
+
+    <div class="section-label">Your Role</div>
+    <button class="role-btn active" onclick="setRole(this,'CEO','Chief Executive Officer')"><i class="ti ti-crown"></i> CEO</button>
+    <button class="role-btn" onclick="setRole(this,'CFO','Chief Financial Officer')"><i class="ti ti-coin"></i> CFO</button>
+    <button class="role-btn" onclick="setRole(this,'COO','Chief Operations Officer')"><i class="ti ti-settings"></i> COO</button>
+    <button class="role-btn" onclick="setRole(this,'CTO','Chief Technology Officer')"><i class="ti ti-cpu"></i> CTO</button>
+    <button class="role-btn" onclick="setRole(this,'Director','Senior Director')"><i class="ti ti-user-star"></i> Director</button>
+    <button class="role-btn" onclick="setRole(this,'Board Member','Board Member')"><i class="ti ti-building"></i> Board Member</button>
+
     <div class="topics">
-      <div class="topic-label">Ask about</div>
-      <button class="topic-btn" onclick="insertTopic('Summarize our Q2 performance and key risks')"><i class="ti ti-chart-bar" aria-hidden="true"></i> Performance summary</button>
-      <button class="topic-btn" onclick="insertTopic('What should be our top 3 strategic priorities this quarter?')"><i class="ti ti-target" aria-hidden="true"></i> Strategic priorities</button>
-      <button class="topic-btn" onclick="insertTopic('Help me prepare for a board meeting presentation')"><i class="ti ti-presentation" aria-hidden="true"></i> Board meeting prep</button>
-      <button class="topic-btn" onclick="insertTopic('Draft a communication to my team about upcoming changes')"><i class="ti ti-mail" aria-hidden="true"></i> Team communication</button>
-      <button class="topic-btn" onclick="insertTopic('Analyze this business decision and give me pros and cons:')"><i class="ti ti-scale" aria-hidden="true"></i> Decision analysis</button>
-      <button class="topic-btn" onclick="insertTopic('What are the key market trends I should be aware of?')"><i class="ti ti-trending-up" aria-hidden="true"></i> Market trends</button>
-      <button class="topic-btn" onclick="insertTopic('Help me write an executive summary for:')"><i class="ti ti-file-text" aria-hidden="true"></i> Executive summary</button>
-      <button class="topic-btn" onclick="insertTopic('How should I handle this leadership challenge:')"><i class="ti ti-users" aria-hidden="true"></i> Leadership challenges</button>
-      <button class="topic-btn" onclick="insertTopic('Review my budget allocation and suggest optimizations')"><i class="ti ti-calculator" aria-hidden="true"></i> Budget review</button>
-      <button class="topic-btn" onclick="insertTopic('What KPIs should I track for my department?')"><i class="ti ti-list-check" aria-hidden="true"></i> KPIs & metrics</button>
-      <button class="topic-btn" onclick="insertTopic('Help me evaluate a potential partnership or acquisition')"><i class="ti ti-handshake" aria-hidden="true"></i> M&A / partnerships</button>
-      <button class="topic-btn" onclick="insertTopic('Identify risks in our current business strategy')"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Risk assessment</button>
+      <div class="section-label" style="padding-top:10px">Ask About</div>
+      <button class="topic-btn" onclick="insertTopic('Summarize our Q2 performance and key risks')"><i class="ti ti-chart-bar"></i> Performance summary</button>
+      <button class="topic-btn" onclick="insertTopic('What should be our top 3 strategic priorities this quarter?')"><i class="ti ti-target"></i> Strategic priorities</button>
+      <button class="topic-btn" onclick="insertTopic('Help me prepare for a board meeting presentation')"><i class="ti ti-presentation"></i> Board meeting prep</button>
+      <button class="topic-btn" onclick="insertTopic('Draft a communication to my team about upcoming changes')"><i class="ti ti-mail"></i> Team communication</button>
+      <button class="topic-btn" onclick="insertTopic('Analyze this business decision and give me pros and cons:')"><i class="ti ti-scale"></i> Decision analysis</button>
+      <button class="topic-btn" onclick="insertTopic('What are the key market trends I should be aware of?')"><i class="ti ti-trending-up"></i> Market trends</button>
+      <button class="topic-btn" onclick="insertTopic('Help me write an executive summary for:')"><i class="ti ti-file-text"></i> Executive summary</button>
+      <button class="topic-btn" onclick="insertTopic('How should I handle this leadership challenge:')"><i class="ti ti-users"></i> Leadership challenges</button>
+      <button class="topic-btn" onclick="insertTopic('Review my budget allocation and suggest optimizations')"><i class="ti ti-calculator"></i> Budget review</button>
+      <button class="topic-btn" onclick="insertTopic('What KPIs should I track for my department?')"><i class="ti ti-list-check"></i> KPIs &amp; metrics</button>
+      <button class="topic-btn" onclick="insertTopic('Help me evaluate a potential partnership or acquisition')"><i class="ti ti-handshake"></i> M&amp;A / partnerships</button>
+      <button class="topic-btn" onclick="insertTopic('Identify risks in our current business strategy')"><i class="ti ti-alert-triangle"></i> Risk assessment</button>
     </div>
+
+    <div class="powered"><div class="powered-dot"></div> Powered by Claude AI (Anthropic)</div>
   </div>
 
   <div class="main">
     <div class="topbar">
-      <div class="status-dot"></div>
       <div class="topbar-info">
         <div class="topbar-title" id="topbar-title">CEO Advisory Mode</div>
-        <div class="topbar-sub">Natural language · Attach documents · Executive context</div>
+        <div class="topbar-sub">Natural language · File attachments · Executive context</div>
       </div>
-      <span class="ai-badge">Claude AI</span>
-      <button class="clr-btn" onclick="clearChat()" title="Clear chat"><i class="ti ti-refresh" aria-hidden="true"></i></button>
+      <span class="ai-badge">Claude Sonnet 4</span>
+      <button class="clr-btn" onclick="clearChat()" title="Clear chat"><i class="ti ti-refresh"></i></button>
     </div>
 
     <div class="messages" id="messages">
       <div class="welcome" id="welcome">
-        <div class="welcome-icon"><i class="ti ti-briefcase" aria-hidden="true"></i></div>
-        <div class="welcome-title">Your executive AI advisor</div>
-        <div class="welcome-sub">Ask in plain English. Attach reports, spreadsheets, or documents for deeper, context-aware analysis.</div>
+        <div class="welcome-icon"><i class="ti ti-sparkles"></i></div>
+        <div class="welcome-title">Your Executive AI Advisor</div>
+        <div class="welcome-sub">Ask anything in plain English. Attach reports, spreadsheets, or documents for deeper context-aware analysis.</div>
         <div class="starter-grid">
-          <button class="starter" onclick="sendQuick('What should a CEO focus on this week to drive growth?')"><div class="starter-icon"><i class="ti ti-rocket" aria-hidden="true"></i></div><div class="starter-text">Weekly CEO priorities</div></button>
-          <button class="starter" onclick="sendQuick('Help me draft a concise board update on company performance')"><div class="starter-icon"><i class="ti ti-presentation" aria-hidden="true"></i></div><div class="starter-text">Board update draft</div></button>
-          <button class="starter" onclick="sendQuick('What are the top 5 risks every executive should monitor right now?')"><div class="starter-icon"><i class="ti ti-alert-triangle" aria-hidden="true"></i></div><div class="starter-text">Top executive risks</div></button>
-          <button class="starter" onclick="sendQuick('Give me a framework for making faster, better strategic decisions')"><div class="starter-icon"><i class="ti ti-brain" aria-hidden="true"></i></div><div class="starter-text">Decision framework</div></button>
+          <button class="starter" onclick="sendQuick('What should a CEO focus on this week to drive growth?')"><div class="starter-icon"><i class="ti ti-rocket"></i></div><div class="starter-text">Weekly CEO priorities</div></button>
+          <button class="starter" onclick="sendQuick('Help me draft a concise board update on company performance')"><div class="starter-icon"><i class="ti ti-presentation"></i></div><div class="starter-text">Board update draft</div></button>
+          <button class="starter" onclick="sendQuick('What are the top 5 risks every executive should monitor right now?')"><div class="starter-icon"><i class="ti ti-alert-triangle"></i></div><div class="starter-text">Top executive risks</div></button>
+          <button class="starter" onclick="sendQuick('Give me a framework for making faster, better strategic decisions')"><div class="starter-icon"><i class="ti ti-brain"></i></div><div class="starter-text">Decision framework</div></button>
         </div>
       </div>
     </div>
@@ -152,39 +187,23 @@
         <button class="qp" onclick="sendQuick('Draft a concise status update for my team')">Team update</button>
         <button class="qp" onclick="sendQuick('Summarize the key risks I should address now')">Key risks</button>
         <button class="qp" onclick="sendQuick('Give me a quick SWOT analysis framework')">SWOT analysis</button>
-        <button class="qp" onclick="triggerAttach()"><i class="ti ti-paperclip" aria-hidden="true" style="font-size:12px"></i> Attach file</button>
+        <button class="qp" onclick="triggerAttach()"><i class="ti ti-paperclip" style="font-size:12px"></i> Attach file</button>
       </div>
       <div class="input-row">
         <input type="file" id="file-input" multiple accept=".txt,.csv,.json,.md,.pdf,.png,.jpg,.jpeg,.gif,.webp" style="display:none" onchange="onFiles(event)">
-        <button class="attach-btn" id="attach-btn" onclick="triggerAttach()" title="Attach document, image, or data file"><i class="ti ti-paperclip" aria-hidden="true"></i></button>
-        <textarea class="textarea" id="input" placeholder="Ask anything — or attach a file for deeper analysis…" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
-        <button class="send" id="send-btn" onclick="send()" title="Send"><i class="ti ti-arrow-up" aria-hidden="true"></i></button>
+        <button class="attach-btn" id="attach-btn" onclick="triggerAttach()" title="Attach file"><i class="ti ti-paperclip"></i></button>
+        <textarea class="textarea" id="input" placeholder="Ask anything in plain English — or attach a file for deeper analysis…" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
+        <button class="send" id="send-btn" onclick="send()"><i class="ti ti-arrow-up"></i></button>
       </div>
-      <div class="file-hint" id="file-hint">Supports: PDF, images (PNG/JPG), text, CSV, JSON, Markdown</div>
+      <div class="file-hint">🔒 Click the paperclip to attach · Drag &amp; drop files here · PDF, images, CSV, TXT, JSON · Max 5MB</div>
     </div>
   </div>
 </div>
 
 <script>
-let history=[];
-let busy=false;
-let currentRole='CEO';
-let currentRoleTitle='Chief Executive Officer';
-let attachedFiles=[];
+let history=[],busy=false,currentRole='CEO',currentRoleTitle='Chief Executive Officer',attachedFiles=[];
 
-const systemPrompt=()=>`You are ExecAI, a world-class executive advisor and strategic consultant currently assisting a ${currentRole} (${currentRoleTitle}).
-
-Communication style:
-- Speak as a trusted senior advisor — confident, concise, and direct
-- Use executive-level language: clear, crisp, and actionable
-- Lead with the key insight, follow with supporting points
-- Use numbered lists or bullets where helpful for scannability
-- Always consider business impact, risk, and opportunity
-- When documents or files are shared, analyze them thoroughly and extract the most relevant executive insights
-- Be honest — flag risks and tradeoffs, not just positives
-- Keep responses focused — executives value brevity and clarity
-
-You help with: strategic planning, decision analysis, communications, board preparation, leadership, financial oversight, market analysis, risk assessment, KPIs, and executive productivity. When files are attached, ground your analysis in the actual content provided.`;
+const systemPrompt=()=>`You are ExecAI, a world-class executive advisor currently assisting a ${currentRole} (${currentRoleTitle}). Be concise, direct, and actionable. Lead with key insights. Use bullets where helpful. Flag risks honestly. Speak as a trusted senior advisor.`;
 
 function setRole(btn,role,title){
   document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
@@ -193,206 +212,102 @@ function setRole(btn,role,title){
   document.getElementById('topbar-title').textContent=role+' Advisory Mode';
   history=[];clearMessages();
 }
-
-function insertTopic(text){
-  document.getElementById('input').value=text;
-  document.getElementById('input').focus();
-  resize(document.getElementById('input'));
-}
-
+function insertTopic(text){document.getElementById('input').value=text;document.getElementById('input').focus();resize(document.getElementById('input'));}
 function triggerAttach(){document.getElementById('file-input').click()}
-
 function onFiles(e){
-  const files=Array.from(e.target.files);
-  files.forEach(f=>{
-    if(f.size>5*1024*1024){alert('File "'+f.name+'" is too large. Please keep files under 5MB.');return}
+  Array.from(e.target.files).forEach(f=>{
+    if(f.size>5*1024*1024){alert('File too large (max 5MB): '+f.name);return}
     attachedFiles.push(f);
   });
-  e.target.value='';
-  renderAttachPreview();
+  e.target.value='';renderAttachPreview();
 }
-
 function renderAttachPreview(){
-  const preview=document.getElementById('attach-preview');
-  const btn=document.getElementById('attach-btn');
-  if(attachedFiles.length===0){preview.style.display='none';btn.classList.remove('has-files');return}
-  preview.style.display='flex';
-  btn.classList.add('has-files');
-  preview.innerHTML='';
+  const p=document.getElementById('attach-preview'),b=document.getElementById('attach-btn');
+  if(!attachedFiles.length){p.style.display='none';b.classList.remove('has-files');return}
+  p.style.display='flex';b.classList.add('has-files');p.innerHTML='';
   attachedFiles.forEach((f,i)=>{
-    const chip=document.createElement('div');
-    chip.className='attach-chip';
-    const icon=getFileIcon(f.name);
-    chip.innerHTML=`<i class="ti ${icon} attach-chip-icon" aria-hidden="true"></i><span class="attach-chip-name" title="${esc(f.name)}">${esc(f.name)}</span><span style="font-size:10px;color:var(--color-text-tertiary);flex-shrink:0">${fmtSize(f.size)}</span><button class="attach-remove" onclick="removeFile(${i})" title="Remove"><i class="ti ti-x" aria-hidden="true"></i></button>`;
-    preview.appendChild(chip);
+    const c=document.createElement('div');c.className='attach-chip';
+    c.innerHTML=`<i class="ti ${getIcon(f.name)} attach-chip-icon"></i><span class="attach-chip-name">${esc(f.name)}</span><span style="font-size:10px;color:var(--t3);flex-shrink:0">${fmtSize(f.size)}</span><button class="attach-remove" onclick="removeFile(${i})"><i class="ti ti-x"></i></button>`;
+    p.appendChild(c);
   });
 }
-
 function removeFile(i){attachedFiles.splice(i,1);renderAttachPreview()}
-
-function getFileIcon(name){
-  const ext=name.split('.').pop().toLowerCase();
-  if(['png','jpg','jpeg','gif','webp'].includes(ext))return'ti-photo';
-  if(ext==='pdf')return'ti-file-type-pdf';
-  if(ext==='csv')return'ti-table';
-  if(ext==='json')return'ti-braces';
-  if(['md','txt'].includes(ext))return'ti-file-text';
-  return'ti-file';
-}
-
+function getIcon(n){const e=n.split('.').pop().toLowerCase();if(['png','jpg','jpeg','gif','webp'].includes(e))return'ti-photo';if(e==='pdf')return'ti-file-type-pdf';if(e==='csv')return'ti-table';if(e==='json')return'ti-braces';return'ti-file-text';}
 function fmtSize(b){if(b<1024)return b+'B';if(b<1048576)return Math.round(b/1024)+'KB';return(b/1048576).toFixed(1)+'MB'}
-
 function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
-function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px'}
-
-async function readFileAsBase64(file){
-  return new Promise((res,rej)=>{
-    const r=new FileReader();
-    r.onload=()=>res(r.result.split(',')[1]);
-    r.onerror=rej;
-    r.readAsDataURL(file);
-  });
-}
-
-async function readFileAsText(file){
-  return new Promise((res,rej)=>{
-    const r=new FileReader();
-    r.onload=()=>res(r.result);
-    r.onerror=rej;
-    r.readAsText(file);
-  });
-}
-
-function isImage(name){return['png','jpg','jpeg','gif','webp'].includes(name.split('.').pop().toLowerCase())}
-function isPDF(name){return name.split('.').pop().toLowerCase()==='pdf'}
-
-function sendQuick(text){
-  const w=document.getElementById('welcome');if(w)w.remove();
-  document.getElementById('input').value=text;send();
-}
+function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px'}
+function isImage(n){return['png','jpg','jpeg','gif','webp'].includes(n.split('.').pop().toLowerCase())}
+function isPDF(n){return n.split('.').pop().toLowerCase()==='pdf'}
+function sendQuick(text){const w=document.getElementById('welcome');if(w)w.remove();document.getElementById('input').value=text;send();}
+async function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f);})}
+async function readText(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsText(f);})}
 
 async function send(){
-  const inp=document.getElementById('input');
-  const text=inp.value.trim();
-  if((!text&&attachedFiles.length===0)||busy)return;
+  const inp=document.getElementById('input'),text=inp.value.trim();
+  if((!text&&!attachedFiles.length)||busy)return;
   inp.value='';inp.style.height='auto';
-
   const w=document.getElementById('welcome');if(w)w.remove();
-
-  const filesToSend=[...attachedFiles];
-  attachedFiles=[];
-  renderAttachPreview();
-
-  const btn=document.getElementById('send-btn');
-  btn.disabled=true;busy=true;
-
-  let userContent=[];
-  let fileNames=[];
-
-  for(const f of filesToSend){
-    fileNames.push(f.name);
-    const ext=f.name.split('.').pop().toLowerCase();
-    if(isImage(f.name)){
-      const b64=await readFileAsBase64(f);
-      const mt=ext==='jpg'||ext==='jpeg'?'image/jpeg':ext==='png'?'image/png':ext==='gif'?'image/gif':'image/webp';
-      userContent.push({type:'image',source:{type:'base64',media_type:mt,data:b64}});
-    } else if(isPDF(f.name)){
-      const b64=await readFileAsBase64(f);
-      userContent.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
-    } else {
-      try{
-        const txt=await readFileAsText(f);
-        userContent.push({type:'text',text:`[Attached file: ${f.name}]\n\n${txt}`});
-      }catch(e){
-        userContent.push({type:'text',text:`[Attached file: ${f.name} — could not read content]`});
-      }
-    }
+  const files=[...attachedFiles];attachedFiles=[];renderAttachPreview();
+  const btn=document.getElementById('send-btn');btn.disabled=true;busy=true;
+  let content=[],names=[];
+  for(const f of files){
+    names.push(f.name);
+    if(isImage(f.name)){const b=await readB64(f);const ext=f.name.split('.').pop().toLowerCase();const mt=ext==='jpg'||ext==='jpeg'?'image/jpeg':ext==='png'?'image/png':'image/webp';content.push({type:'image',source:{type:'base64',media_type:mt,data:b}});}
+    else if(isPDF(f.name)){const b=await readB64(f);content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b}});}
+    else{try{const t=await readText(f);content.push({type:'text',text:`[File: ${f.name}]\n\n${t}`});}catch{content.push({type:'text',text:`[File: ${f.name} – unreadable]`});}}
   }
-
-  if(text) userContent.push({type:'text',text});
-  else if(fileNames.length>0) userContent.push({type:'text',text:`Please analyze the attached file${fileNames.length>1?'s':''} and provide executive-level insights.`});
-
-  const msgForHistory={role:'user',content:userContent};
-  history.push(msgForHistory);
-
-  appendUserMsg(text,fileNames);
-
-  const typing=document.createElement('div');
-  typing.className='msg ai';typing.id='typing';
-  typing.innerHTML=`<div class="avatar"><i class="ti ti-sparkles" aria-hidden="true"></i></div><div class="bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
-  document.getElementById('messages').appendChild(typing);
-  scrollDown();
-
+  if(text)content.push({type:'text',text});
+  else content.push({type:'text',text:`Analyze the attached file${names.length>1?'s':''} and provide executive insights.`});
+  history.push({role:'user',content});
+  appendUserMsg(text,names);
+  const typing=document.createElement('div');typing.className='msg ai';typing.id='typing';
+  typing.innerHTML=`<div class="avatar"><i class="ti ti-sparkles"></i></div><div class="bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  document.getElementById('messages').appendChild(typing);scrollDown();
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:systemPrompt(),messages:history})
-    });
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt(),messages:history})});
     const data=await res.json();
-    const t=document.getElementById('typing');if(t)t.remove();
-    if(data.content&&data.content[0]){
-      const reply=data.content[0].text||'';
-      history.push({role:'assistant',content:reply});
-      appendMsg('ai',reply);
-    } else if(data.error){
-      appendMsg('ai','I encountered an issue: '+data.error.message);
-    }
-  }catch(e){
-    const t=document.getElementById('typing');if(t)t.remove();
-    appendMsg('ai','Unable to reach the AI service. Please check your connection and try again.');
-  }
-  busy=false;btn.disabled=false;
-  document.getElementById('input').focus();
+    document.getElementById('typing')?.remove();
+    if(data.content?.[0]){const reply=data.content[0].text||'';history.push({role:'assistant',content:reply});appendMsg('ai',reply);}
+    else if(data.error){appendMsg('ai','⚠️ Error: '+data.error.message);}
+  }catch(e){document.getElementById('typing')?.remove();appendMsg('ai','Connection error. Please try again.');}
+  busy=false;btn.disabled=false;document.getElementById('input').focus();
 }
 
-function appendUserMsg(text,fileNames){
-  const m=document.getElementById('messages');
-  const d=document.createElement('div');
-  d.className='msg user';
+function appendUserMsg(text,names){
+  const m=document.getElementById('messages'),d=document.createElement('div');d.className='msg user';
   let inner='';
-  if(fileNames.length>0){
-    const chips=fileNames.map(n=>`<div class="file-msg-chip"><i class="ti ${getFileIcon(n)}" aria-hidden="true" style="font-size:12px"></i>${esc(n)}</div>`).join('');
-    inner+=`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:${text?'5px':'0'}">${chips}</div>`;
-  }
-  if(text) inner+=`<div>${esc(text)}</div>`;
-  d.innerHTML=`<div class="avatar"><i class="ti ti-user" aria-hidden="true"></i></div><div class="bubble">${inner}</div>`;
-  m.appendChild(d);scrollDown();
+  if(names.length)inner+=`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:${text?'6px':'0'}">${names.map(n=>`<div class="file-msg-chip"><i class="ti ${getIcon(n)}" style="font-size:12px"></i>${esc(n)}</div>`).join('')}</div>`;
+  if(text)inner+=`<div>${esc(text)}</div>`;
+  d.innerHTML=`<div class="avatar"><i class="ti ti-user"></i></div><div class="bubble">${inner}</div>`;
+  document.getElementById('messages').appendChild(d);scrollDown();
 }
-
 function appendMsg(role,text){
-  const m=document.getElementById('messages');
-  const d=document.createElement('div');
-  d.className='msg '+role;
-  const icon=role==='user'?'<i class="ti ti-user" aria-hidden="true"></i>':'<i class="ti ti-sparkles" aria-hidden="true"></i>';
+  const m=document.getElementById('messages'),d=document.createElement('div');d.className='msg '+role;
+  const icon=role==='user'?'<i class="ti ti-user"></i>':'<i class="ti ti-sparkles"></i>';
   d.innerHTML=`<div class="avatar">${icon}</div><div class="bubble">${role==='ai'?fmt(text):esc(text)}</div>`;
   m.appendChild(d);scrollDown();
 }
-
 function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
 function fmt(t){
   t=esc(t);
-  t=t.replace(/```([\s\S]*?)```/g,'<pre style="background:var(--color-background-tertiary);border-radius:6px;padding:8px 10px;margin:6px 0;font-family:var(--font-mono);font-size:11.5px;overflow-x:auto;white-space:pre-wrap">$1</pre>');
-  t=t.replace(/`([^`]+)`/g,'<code style="background:var(--color-background-tertiary);padding:1px 5px;border-radius:4px;font-family:var(--font-mono);font-size:11.5px">$1</code>');
-  t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-  t=t.replace(/^### (.+)$/gm,'<div style="font-weight:500;margin:7px 0 2px;font-size:13px">$1</div>');
-  t=t.replace(/^## (.+)$/gm,'<div style="font-weight:500;margin:8px 0 3px;font-size:13.5px">$1</div>');
-  t=t.replace(/^(\d+)\. (.+)$/gm,'<div style="padding-left:4px;margin:2px 0"><span style="font-weight:500;margin-right:5px">$1.</span>$2</div>');
-  t=t.replace(/^[-•] (.+)$/gm,'<div style="padding-left:10px;margin:2px 0;position:relative"><span style="position:absolute;left:0">·</span>$1</div>');
+  t=t.replace(/```([\s\S]*?)```/g,'<pre style="background:#1c2333;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:10px 12px;margin:8px 0;font-family:monospace;font-size:12px;overflow-x:auto;white-space:pre-wrap;color:#e8eaf0">$1</pre>');
+  t=t.replace(/`([^`]+)`/g,'<code style="background:#1c2333;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px">$1</code>');
+  t=t.replace(/\*\*(.+?)\*\*/g,'<strong style="color:#e8eaf0">$1</strong>');
+  t=t.replace(/^### (.+)$/gm,'<div style="font-weight:600;margin:10px 0 3px;font-size:13.5px;color:#e8eaf0">$1</div>');
+  t=t.replace(/^## (.+)$/gm,'<div style="font-weight:600;margin:12px 0 4px;font-size:14px;color:#e8eaf0">$1</div>');
+  t=t.replace(/^(\d+)\. (.+)$/gm,'<div style="padding-left:6px;margin:3px 0"><span style="font-weight:600;margin-right:6px;color:#f5a623">$1.</span>$2</div>');
+  t=t.replace(/^[-•] (.+)$/gm,'<div style="padding-left:12px;margin:3px 0;position:relative"><span style="position:absolute;left:0;color:#f5a623">·</span>$1</div>');
   t=t.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
   return t;
 }
-
 function scrollDown(){const m=document.getElementById('messages');m.scrollTop=m.scrollHeight}
-
 function clearMessages(){
-  const m=document.getElementById('messages');
-  m.innerHTML='';history=[];attachedFiles=[];renderAttachPreview();
+  const m=document.getElementById('messages');m.innerHTML='';history=[];attachedFiles=[];renderAttachPreview();
   const w=document.createElement('div');w.className='welcome';w.id='welcome';
-  w.innerHTML=`<div class="welcome-icon"><i class="ti ti-briefcase" aria-hidden="true"></i></div><div class="welcome-title">${currentRole} Advisory Mode</div><div class="welcome-sub">Ask anything in plain English. Attach reports, spreadsheets, or documents for deeper, context-aware analysis.</div>`;
+  w.innerHTML=`<div class="welcome-icon"><i class="ti ti-sparkles"></i></div><div class="welcome-title">${currentRole} Advisory Mode</div><div class="welcome-sub">Ask anything in plain English. Attach reports or documents for context-aware analysis.</div>`;
   m.appendChild(w);
 }
-
 function clearChat(){clearMessages()}
 </script>
+</body>
+</html>
