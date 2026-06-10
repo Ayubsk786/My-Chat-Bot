@@ -182,7 +182,7 @@ body{display:flex;align-items:stretch;justify-content:center;min-height:100vh}
 </div>
 <script>
 let history=[],busy=false,currentRole='CEO',currentRoleTitle='Chief Executive Officer',attachedFiles=[];
-const API_KEY='PASTE-YOUR-NEW-KEY-HERE';
+const API_KEY='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';
 const systemPrompt=()=>`You are ExecAI, a world-class executive advisor currently assisting a ${currentRole} (${currentRoleTitle}). Be concise, direct, and actionable. Lead with key insights. Use bullets where helpful. Flag risks honestly. Speak as a trusted senior advisor.`;
 function setRole(btn,role,title){document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentRole=role;currentRoleTitle=title;document.getElementById('topbar-title').textContent=role+' Advisory Mode';history=[];clearMessages();}
 function insertTopic(text){document.getElementById('input').value=text;document.getElementById('input').focus();resize(document.getElementById('input'));}
@@ -221,7 +221,7 @@ async function send(){
   typing.innerHTML=`<div class="avatar"><i class="ti ti-sparkles"></i></div><div class="bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
   document.getElementById('messages').appendChild(typing);scrollDown();
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt(),messages:history})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':'API_KEY','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt(),messages:history})});
     const data=await res.json();
     document.getElementById('typing')?.remove();
     if(data.content?.[0]){const reply=data.content[0].text||'';history.push({role:'assistant',content:reply});appendMsg('ai',reply);}
